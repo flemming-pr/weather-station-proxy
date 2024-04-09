@@ -38,7 +38,6 @@ func main() {
 			return c.SendStatus(http.StatusUnauthorized)
 		}
 
-		probe.fahrenheitToCelcius()
 		probe.mphToKnots()
 
 		baseUrl, _  := url.Parse("http://www.windguru.cz/upload/api.php")
