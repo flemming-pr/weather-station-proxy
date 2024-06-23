@@ -50,6 +50,7 @@ func main() {
 		params.Add("wind_max", fmt.Sprintf("%f", probe.WindGust))
 		params.Add("wind_direction", fmt.Sprintf("%f", probe.WindDirection))
 		params.Add("temperature", fmt.Sprintf("%f", probe.Temperature))
+		params.Add("rh", fmt.Sprintf("%f", probe.Humidity))
 
 		baseUrl.RawQuery = params.Encode()
 
