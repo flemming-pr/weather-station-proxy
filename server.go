@@ -47,7 +47,8 @@ func main() {
 		params.Add("salt", salt)
 		params.Add("hash", getHash(salt, uid, password))
 		params.Add("wind_avg", fmt.Sprintf("%f", probe.WindSpeed))
-		params.Add("wind_dir", fmt.Sprintf("%f", probe.WindDirection))
+		params.Add("wind_max", fmt.Sprintf("%f", probe.WindGust))
+		params.Add("wind_direction", fmt.Sprintf("%f", probe.WindDirection))
 		params.Add("temperature", fmt.Sprintf("%f", probe.Temperature))
 
 		baseUrl.RawQuery = params.Encode()
