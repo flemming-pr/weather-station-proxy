@@ -39,6 +39,7 @@ func main() {
 		}
 
 		probe.mphToKnots()
+		probe.fahrenheitToCelcius()
 
 		baseUrl, _  := url.Parse("http://www.windguru.cz/upload/api.php")
 		params := url.Values{}
