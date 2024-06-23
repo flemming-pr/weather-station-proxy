@@ -3,7 +3,7 @@ package main
 type RequestProbe struct {
 	ID             string  `json:"ID" query:"ID"`
 	Password       string  `json:"password" query:"PASSWORD"`
-	Temperature    float64 `json:"temperature" query:"temperature"`
+	Temperature    float64 `json:"temperature" query:"tempf"`
 	DewPoint       float64 `json:"dew_point" query:"dewptf"`
 	Humidity       float64 `json:"humidity" query:"humidity"`
 	WindSpeed      float64 `json:"wind_speed" query:"windspeedmph"`
