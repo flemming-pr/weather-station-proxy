@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/md5"
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -27,6 +28,20 @@ func main() {
 
 	app := fiber.New()
 
+	app.Get("/api", func(c *fiber.Ctx) error {
+		filename := "current.json"
+
+		jsonData, err := os.ReadFile(filename)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).SendString(fmt.Sprintf("Error reading file: %v", err))
+		}
+
+		c.Set(fiber.HeaderContentType, fiber.MIMEApplicationJSON)
+
+		return c.Send(jsonData)
+	})
+
+
 	app.Get("/weatherstation/updateweatherstation.php", func(c *fiber.Ctx) error {
 		probe := &RequestProbe{}
 
@@ -40,6 +55,8 @@ func main() {
 
 		probe.mphToKnots()
 		probe.fahrenheitToCelcius()
+
+		writeToFile(*probe)
 
 		baseUrl, _  := url.Parse("http://www.windguru.cz/upload/api.php")
 		params := url.Values{}
@@ -82,4 +99,19 @@ func main() {
 func getHash(salt string, uid string, password string) string {
 	data := []byte(salt + uid + password)
 	return fmt.Sprintf("%x", md5.Sum(data))
+}
+
+func writeToFile(probe RequestProbe) {
+	probe.hidePassword()
+	jsonData, err := json.Marshal(probe)
+	if err != nil {
+		log.Fatalf("Error encoding %v", err)
+	}
+
+	filename := "current.json"
+
+	err = os.WriteFile(filename, jsonData, 0644)
+	if err != nil {
+		fmt.Println("Error writing to file:", err)
+	}
 }

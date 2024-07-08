@@ -25,3 +25,7 @@ func (r *RequestProbe) mphToKnots() {
 	r.WindSpeed = r.WindSpeed * 0.868976
 	r.WindGust = r.WindGust * 0.868976
 }
+
+func (r *RequestProbe) hidePassword() {
+	r.Password = ""
+}
