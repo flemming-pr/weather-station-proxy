@@ -35,6 +35,12 @@ func main() {
 		return c.Send(jsonData)
 	})
 
+	app.Get("/*", func(c *fiber.Ctx) error {
+		log.Printf("Request received: %s %s", c.Method(), c.Path())
+		log.Printf("Query parameters: %v", c.AllParams())
+		return c.SendStatus(fiber.StatusOK)
+	})
+
 	app.Get("/weatherstation/updateweatherstation.php", func(c *fiber.Ctx) error {
 		probe := &RequestProbe{}
 
