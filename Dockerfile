@@ -17,6 +17,9 @@ RUN go build -o weather-station-distributor
 # Stage 2: Create a lightweight final image
 FROM alpine:3.21
 
+# Add necessary runtime dependencies
+RUN apk add --no-cache ca-certificates tzdata
+
 # Set the working directory
 WORKDIR /app
 
