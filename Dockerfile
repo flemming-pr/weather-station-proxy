@@ -1,33 +1,25 @@
-# Stage 1: Build the Go binary
-FROM golang:1.24-alpine AS builder
+# Use Go 1.23 bookworm as base image
+FROM golang:1.24-alpine AS build
 
-# Set the working directory inside the container
-WORKDIR /app
+# Move to working directory /build
+WORKDIR /build
 
-# Copy the Go modules files first and download dependencies (caching these layers)
+# Copy the go.mod and go.sum files to the /build directory
 COPY go.mod go.sum ./
+
+# Install dependencies
 RUN go mod download
 
-# Copy the source code into the container
+# Copy the entire source code into the container
 COPY . .
 
-# Build the binary
-RUN go build -o weather-station-distributor
+# Build the application
+RUN go build -o app
 
-# Stage 2: Create a lightweight final image
-FROM alpine:3.21
+FROM scratch
+# Copy binary from the build step
+COPY --from=build /build/app /go/bin/app
 
-# Add necessary runtime dependencies
-RUN apk add --no-cache ca-certificates tzdata
-
-# Set the working directory
-WORKDIR /app
-
-# Copy only the built binary from the builder stage
-COPY --from=builder /app/weather-station-distributor /app/weather-station-distributor
-
-# Expose port 3000
+# Set startup options
 EXPOSE 3000
-
-# Set the command to run the binary
-CMD ["./weather-station-distributor"]
+ENTRYPOINT [ "/go/bin/app" ]

@@ -11,18 +11,12 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	err := godotenv.Load()
-    if err != nil {
-		log.Fatal("Error loading.env file")
-    }
-
 	salt := os.Getenv("SALT")
-    uid := os.Getenv("UID")
-    password := os.Getenv("PASSWORD")
+	uid := os.Getenv("UID")
+	password := os.Getenv("PASSWORD")
 	stationId := os.Getenv("STATION_ID")
 	stationPassword := os.Getenv("STATION_PASSWORD")
 
@@ -41,7 +35,6 @@ func main() {
 		return c.Send(jsonData)
 	})
 
-
 	app.Get("/weatherstation/updateweatherstation.php", func(c *fiber.Ctx) error {
 		probe := &RequestProbe{}
 
@@ -58,7 +51,7 @@ func main() {
 
 		writeToFile(*probe)
 
-		baseUrl, _  := url.Parse("http://www.windguru.cz/upload/api.php")
+		baseUrl, _ := url.Parse("http://www.windguru.cz/upload/api.php")
 		params := url.Values{}
 		params.Add("uid", uid)
 		params.Add("salt", salt)

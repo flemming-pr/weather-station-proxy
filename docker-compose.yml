@@ -1,10 +1,12 @@
-version: "3"
-
 services:
   web:
-    build: .
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    image: ghcr.io/flemming-pr/weather-station-proxy/main:latest
     ports:
-      - "3000:3000"
+      - "3333:3000"
     env_file:
       - .env
     restart: always
+    #platform: linux/amd64
