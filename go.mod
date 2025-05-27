@@ -1,6 +1,6 @@
 module flemming/weather-proxy
 
-go 1.21.5
+go 1.24
 
 require (
 	github.com/gofiber/fiber/v2 v2.51.0

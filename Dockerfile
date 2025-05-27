@@ -1,5 +1,5 @@
 # Stage 1: Build the Go binary
-FROM golang:1.21-alpine AS builder
+FROM golang:1.24-alpine AS builder
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -15,7 +15,7 @@ COPY . .
 RUN go build -o weather-station-distributor
 
 # Stage 2: Create a lightweight final image
-FROM alpine:3.18
+FROM alpine:3.21
 
 # Set the working directory
 WORKDIR /app
