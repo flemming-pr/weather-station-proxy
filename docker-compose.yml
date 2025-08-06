@@ -1,9 +1,9 @@
 services:
   web:
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
-    image: ghcr.io/flemming-pr/weather-station-proxy/main:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    #image: ghcr.io/flemming-pr/weather-station-proxy/main:latest
     ports:
       - "3333:3000"
     env_file:
